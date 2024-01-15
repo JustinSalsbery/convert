@@ -5,7 +5,17 @@ import sys
 import argparse
 
 # constants
-VERSION = "1.0"
+VERSION = "2.0"
+
+
+# simplifies the default error format
+class CustomErrorParser(argparse.ArgumentParser):
+    def error(self, message):
+        print("convert --help\n")
+        print("examples:")
+        print("  convert -b 0101")
+        print("  convert -x abcd")
+        sys.exit(1)
 
 
 # simplifies the default help format
@@ -20,36 +30,26 @@ class CustomHelpFormatter(argparse.HelpFormatter):
 
 
 # set up argument parser
-parser = argparse.ArgumentParser(
-    description="binary, decimal, and hexidecimal converter", formatter_class=CustomHelpFormatter)
-parser.add_argument("value", nargs="?",
-                    help="value to convert")
-parser.add_argument("-t", "--type", nargs="?", type=str, default="d",
-                    choices=["b", "d", "h"], help="[b, d, h] value")
+parser = CustomErrorParser(description="binary, decimal, and hexadecimal converter",
+                           formatter_class=CustomHelpFormatter)
+group = parser.add_mutually_exclusive_group(required=True)
+
+# add arguments
 parser.add_argument("-v", "--version", action="version",
                     version=f'%(prog)s {VERSION}', help="show version number and exit")
+group.add_argument("-b2", "--binary", help="base 2")
+group.add_argument("-b10", "--decimal", help="base 10")
+group.add_argument("-b16", "--hexadecimal", help="base 16")
 
-# parse command line arguments
+# parse arguments
 args = parser.parse_args()
 
-# accept piped in prompts
-if not sys.stdin.isatty():
-    args.value = sys.stdin.read()
-
-# print examples if not valid
-if args.value is None or args.type is None:
-    print("convert --help\n")
-    print("examples:")
-    print("  convert -t=b 010101")
-    print("  convert -t=h abcd")
-    sys.exit(0)
-
-if args.type == "b":
-    value = int(args.value, 2)
-elif args.type == "d":
-    value = int(args.value, 10)
-else:  # args.type == "h"
-    value = int(args.value, 16)
+if args.binary is not None:
+    value = int(args.binary, 2)
+elif args.decimal is not None:
+    value = int(args.decimal, 10)
+else:  # args.hexadecimal is not None:
+    value = int(args.hexadecimal, 16)
 
 print("Results:\n" +
-      f"\tb={bin(value)[2:]} ; d={value} ; h={hex(value)[2:]}")
+      f"\tb2={bin(value)[2:]} ; b10={value} ; b16={hex(value)[2:]}")
