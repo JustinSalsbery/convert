@@ -5,7 +5,7 @@ import sys
 import argparse
 
 # constants
-VERSION = "2.0"
+VERSION = "2.0.1"
 
 
 # simplifies the default error format
@@ -13,8 +13,9 @@ class CustomErrorParser(argparse.ArgumentParser):
     def error(self, message):
         print("convert --help\n")
         print("examples:")
-        print("  convert -b 0101")
-        print("  convert -x abcd")
+        print("\tconvert -b2 0101")
+        print("\tconvert -b10 2023")
+        print("\tconvert -b16 abcd")
         sys.exit(1)
 
 
