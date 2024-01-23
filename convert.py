@@ -3,9 +3,10 @@
 
 import sys
 import argparse
+import math
 
 # constants
-VERSION = "2.0.1"
+VERSION = "2.1.0"
 
 
 # simplifies the default error format
@@ -52,5 +53,13 @@ elif args.decimal is not None:
 else:  # args.hexadecimal is not None:
     value = int(args.hexadecimal, 16)
 
-print("Results:\n" +
-      f"\tb2={bin(value)[2:]} ; b10={value} ; b16={hex(value)[2:]}")
+# print conversions
+print("Results:")
+print(f"\tb2 = {bin(value)[2:]}")
+print(f"\tb10 = {value}")
+print(f"\tb16 = {hex(value)[2:]}")
+
+length_bits = value.bit_length()
+length_bytes = math.ceil(length_bits / 8)
+print(f"\tbits = {length_bits} ; bytes = {length_bytes}")
+
