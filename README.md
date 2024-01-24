@@ -7,5 +7,4 @@ Results:
 	b2=101 ; b10=5 ; b16=5  
 
 ## Install:
-- (Linux) Update shebang.
 - make install

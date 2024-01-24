@@ -1,4 +1,4 @@
-#! /opt/homebrew/bin/python3
+#! python3
 # author: Justin Salsbery
 
 import sys
@@ -62,4 +62,3 @@ print(f"\tb16 = {hex(value)[2:]}")
 length_bits = value.bit_length()
 length_bytes = math.ceil(length_bits / 8)
 print(f"\tbits = {length_bits} ; bytes = {length_bytes}")
-
